@@ -1,0 +1,21 @@
+
+{
+    "name": "codeboxr/wp-vue-kickstart",
+    "description": "An WordPress plugin starter with Vue Js.",
+    "authors": [
+        {
+            "name": "Codeboxr",
+            "email": "info@codeboxr.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "WPVK\\Admin\\": "admin/",
+            "WPVK\\Frontend\\": "frontend/",
+            "WPVK\\Includes\\": "includes/"
+        }
+    },
+    "require-dev": {
+    }
+}
