@@ -14,85 +14,94 @@
  * Text-Domain: wp-vue-kickstart
  */
 
-if( ! defined( 'ABSPATH' ) ) exit(); // No direct access allowed
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+} // No direct access allowed
 
 /**
  * Require Autoloader
  */
-require_once 'vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
+
+use WPVK\Api\Api;
+use WPVK\Includes\Admin;
 
 final class WP_Vue_Kickstart {
 
-    /**
-     * Define Plugin Version
-     */
-    const VERSION = '1.0.0';
+	/**
+	 * Define Plugin Version
+	 */
+	const VERSION = '1.0.0';
 
-    /**
-     * Construct Function
-     */
-    public function __construct() {
-        $this->plugin_constants();
-        register_activation_hook( __FILE__, [ $this, 'activate' ] );
-        register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
-        add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
-    }
+	/**
+	 * Construct Function
+	 */
+	public function __construct() {
+		$this->plugin_constants();
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
+		add_action( 'init', [ $this, 'init_plugin' ] );
+	}
 
-    /**
-     * Plugin Constants
-     * @since 1.0.0
-     */
-    public function plugin_constants() {
-        define( 'WPVK_VERSION', self::VERSION );
-        define( 'WPVK_PLUGIN_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-        define( 'WPVK_PLUGIN_URL', trailingslashit( plugins_url( '', __FILE__ ) ) );
-        define( 'WPVK_NONCE', 'b?le*;K7.T2jk_*(+3&[G[xAc8O~Fv)2T/Zk9N:GKBkn$piN0.N%N~X91VbCn@.4' );
-    }
+	/**
+	 * Plugin Constants
+	 * @since 1.0.0
+	 */
+	public function plugin_constants() {
+		define( 'WPVK_VERSION', self::VERSION );
+		define( 'WPVK_PLUGIN_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+		define( 'WPVK_PLUGIN_URL', trailingslashit( plugins_url( '', __FILE__ ) ) );
+		define( 'WPVK_NONCE', 'b?le*;K7.T2jk_*(+3&[G[xAc8O~Fv)2T/Zk9N:GKBkn$piN0.N%N~X91VbCn@.4' );
+	}
 
-    /**
-     * Singletone Instance
-     * @since 1.0.0
-     */
-    public static function init() {
-        static $instance = false;
+	/**
+	 * Singletone Instance
+	 * @since 1.0.0
+	 */
+	public static function init() {
+		static $instance = false;
 
-        if( !$instance ) {
-            $instance = new self();
-        }
+		if ( ! $instance ) {
+			$instance = new self();
+		}
 
-        return $instance;
-    }
+		return $instance;
+	}
 
-    /**
-     * On Plugin Activation
-     * @since 1.0.0
-     */
-    public function activate() {
-        $is_installed = get_option( 'wpvk_is_installed' );
+	/**
+	 * On Plugin Activation
+	 * @since 1.0.0
+	 */
+	public function activate() {
+		$is_installed = get_option( 'wpvk_is_installed' );
 
-        if( ! $is_installed ) {
-            update_option( 'wpvk_is_installed', time() );
-        }
+		if ( ! $is_installed ) {
+			update_option( 'wpvk_is_installed', time() );
+		}
 
-        update_option( 'wpvk_is_installed', WPVK_VERSION );
-    }
+		update_option( 'wpvk_is_installed', WPVK_VERSION );
+	}
 
-    /**
-     * On Plugin De-actiavtion
-     * @since 1.0.0
-     */
-    public function deactivate() {
-        // On plugin deactivation
-    }
+	/**
+	 * On Plugin De-actiavtion
+	 * @since 1.0.0
+	 */
+	public function deactivate() {
+		// On plugin deactivation
+	}
 
-    /**
-     * Init Plugin
-     * @since 1.0.0
-     */
-    public function init_plugin() {
-        // init
-    }
+	/**
+	 * Init Plugin
+	 * @since 1.0.0
+	 */
+	public function init_plugin() {
+		//require_once plugin_dir_path( __FILE__ ) . 'api/Api.php';
+		new Api();
+		//require_once plugin_dir_path( __FILE__ ) . 'includes/Admin.php';
+		new Admin();
+	}
 
 }
 
@@ -101,7 +110,7 @@ final class WP_Vue_Kickstart {
  * @since 1.0.0
  */
 function wp_vue_kickstart() {
-    return WP_Vue_Kickstart::init();
+	return WP_Vue_Kickstart::init();
 }
 
 // Run the Plugin
