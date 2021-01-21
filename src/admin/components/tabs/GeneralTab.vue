@@ -35,6 +35,20 @@
       </p>
     </form>
     <div class="clear"></div>
+    <table border='1' width='80%' style='border-collapse: collapse;'>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+      </tr>
+
+      <tr v-for='data in formData'>
+        <td>{{ data.firstname }}</td>
+        <td>{{ data.lastname }}</td>
+        <td>{{ data.email }}</td>
+      </tr>
+    </table>
+    <div class="clear"></div>
   </div>
 </template>
 
@@ -44,7 +58,10 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   name: "GeneralTab",
   data() {
-    return {}
+    return {
+
+    }
+
   },
   computed: {
     ...mapGetters(['GET_GENERAL_SETTINGS', 'GET_LOADING_TEXT']),

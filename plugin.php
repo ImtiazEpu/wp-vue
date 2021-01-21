@@ -27,6 +27,7 @@ require_once __DIR__.'/vendor/autoload.php';
 
 use WPVK\Api\Api;
 use WPVK\Includes\Admin;
+use WPVK\Includes\Helper;
 
 final class WP_Vue_Kickstart {
 
@@ -75,6 +76,8 @@ final class WP_Vue_Kickstart {
 	 * @since 1.0.0
 	 */
 	public function activate() {
+		Helper::create_table();
+
 		$is_installed = get_option( 'wpvk_is_installed' );
 
 		if ( ! $is_installed ) {
@@ -97,9 +100,7 @@ final class WP_Vue_Kickstart {
 	 * @since 1.0.0
 	 */
 	public function init_plugin() {
-		//require_once plugin_dir_path( __FILE__ ) . 'api/Api.php';
 		new Api();
-		//require_once plugin_dir_path( __FILE__ ) . 'includes/Admin.php';
 		new Admin();
 	}
 

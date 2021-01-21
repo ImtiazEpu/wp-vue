@@ -48,13 +48,16 @@ class Settings_Route extends WP_REST_Controller {
 	 * @return WP_Error|WP_HTTP_Response|WP_REST_Response
 	 */
 	public function get_items( $request ) {
-		$response = [
+		/*$response = [
 			'firstname' => get_option( 'wpvk_settings_firstname' ),
 			'lastname'  => get_option( 'wpvk_settings_lastname' ),
 			'email'     => get_option( 'wpvk_settings_email' )
-		];
+		];*/
+		global $wpdb;
+		$wpvk_table = $wpdb->prefix . 'wpvk';
+		$response_data = $wpdb->get_results( "SELECT * FROM $wpvk_table" );
 
-		return rest_ensure_response( $response );
+		return rest_ensure_response( $response_data );
 	}
 
 
@@ -72,20 +75,36 @@ class Settings_Route extends WP_REST_Controller {
 		$email     = isset( $request['email'] ) && is_email( $request['email'] ) ? sanitize_email( $request['email'] ) : '';
 
 		//save option data in the WP
-
-		update_option( 'wpvk_settings_firstname', $firstname );
+		/*update_option( 'wpvk_settings_firstname', $firstname );
 		update_option( 'wpvk_settings_lastname', $lastname );
-		update_option( 'wpvk_settings_email', $email );
+		update_option( 'wpvk_settings_email', $email );*/
+
+		global $wpdb;
+		$wpvk_table = $wpdb->prefix . 'wpvk';
+
+		//$data_safe                 = array();
+		$data_safe['firstname']    = $firstname;
+		$data_safe['lastname']     = $lastname;
+		$data_safe['email']        = $email;
+		$data_safe['created_date'] = current_time( 'mysql' );
+
+		$col_data_format = array(
+			'%s', //First Name
+			'%s', //Last Name
+			'%s', ///email
+			'%s', //Created time
+		);
+		$wpdb->insert( $wpvk_table, $data_safe, $col_data_format );
 
 		//sent a success response
+		$response_data = $wpdb->get_results( "SELECT * FROM $wpvk_table");
 
-		$response = [
+		/*$response = [
 			'firstname' => get_option( 'wpvk_settings_firstname' ),
 			'lastname'  => get_option( 'wpvk_settings_lastname' ),
-			'email'     => get_option( 'wpvk_settings_email' ),
-		];
-
-		return rest_ensure_response( $response );
+			'email'     => get_option( 'wpvk_settings_email' )
+		];*/
+		return rest_ensure_response( $response_data );
 	}
 
 	/**
