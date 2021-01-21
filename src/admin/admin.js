@@ -8,6 +8,7 @@ import GeneralTab from "./components/tabs/GeneralTab";
 import AnotherTab from "./components/tabs/AnotherTab";
 import Navigation from "./components/tabs/Navigation";
 import Settings from "./components/pages/Settings";
+import menuFix from "./utils/admin-menu-fix";
 
 Vue.use(Vuex)
 Vue.use(VueRouter);
@@ -45,3 +46,6 @@ const app = new Vue({
     store,
     render: h => h(App)
 });
+
+// fix the admin menu for the slug "vue-app"
+menuFix('wp-vue-kickstart');
