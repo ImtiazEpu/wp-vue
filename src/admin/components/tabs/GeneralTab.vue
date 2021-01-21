@@ -56,6 +56,7 @@
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
+
   name: "GeneralTab",
   data() {
     return {

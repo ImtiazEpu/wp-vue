@@ -13,7 +13,7 @@ export const actions = {
                 email: payload.email
             })
                 .then((response) => {
-                    resolve(commit('SAVED'),Vue.notify({
+                    resolve(commit('SAVED'), Vue.notify({
                         group: 'notification',
                         title: 'Saved',
                         text: 'Data has been saved',
@@ -21,6 +21,7 @@ export const actions = {
                         duration: 3000,
                         speed: 1000
                     }))
+                    commit('DISPLAY', payload)
                 })
                 .catch((error) => {
                     reject(error)
